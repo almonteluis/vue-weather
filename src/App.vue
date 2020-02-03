@@ -1,27 +1,29 @@
 <template>
   <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 'warm' : ''">
-    <main>
-      <div class="search-box">
-        <input
-        type="text"
-        class="search-bar"
-        placeholder="Search..."
-        v-model="query"
-        @keypress="fetchWeather"
-        />
-      </div>
+    <div :class="typeof weather.main != 'undefined' && weather.weather[0].main === 'Snow' ? 'snow' : ''">
+      <main >
+        <div class="search-box">
+          <input
+          type="text"
+          class="search-bar"
+          placeholder="Search..."
+          v-model="query"
+          @keypress="fetchWeather"
+          />
+        </div>
 
-      <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
-        <div class="location-box">
-          <div class="location"> {{ weather.name }}, {{ weather.sys.country }} </div>
-          <div class="date">Wednesday Jan 29, 2020</div>
+        <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+          <div class="location-box">
+            <div class="location"> {{ weather.name }}, {{ weather.sys.country }} </div>
+            <div class="date">Wednesday Jan 29, 2020</div>
+          </div>
+          <div class="weather-box">
+            <div class="temp"> {{ Math.round(weather.main.temp) }} °f</div>
+            <div class="weather"> {{ weather.weather[0].main }} </div>
+          </div>
         </div>
-        <div class="weather-box">
-          <div class="temp"> {{ Math.round(weather.main.temp) }} °f</div>
-          <div class="weather"> {{ weather.weather[0].main }} </div>
-        </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -162,6 +164,39 @@ main {
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+#app .snow {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+#app .snow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/snow.png');
+  background-size: cover;
+  opacity: 0.5;
+  animation: snow 0.2s linear infinite;
+}
+
+#app .snow .search-box {
+  position: relative;
+  z-index: 3;
+}
+@keyframes snow {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 40px 5%;
+  }
 }
 
 </style>
