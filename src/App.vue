@@ -1,6 +1,6 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 'warm' : ''">
-    <div :class="typeof weather.main != 'undefined' && weather.weather[0].main === 'Snow' ? 'snow' : ''">
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 'warm' : 'cold'">
+    <div :class="typeof weather.main != 'undefined' && weather.weather[0].main === 'Snow' ? 'snow'  : weather.weather[0].main === 'Rain' ? 'rain' : ''">
       <main >
         <div class="search-box">
           <input
@@ -195,8 +195,38 @@ main {
   }
 
   100% {
-    background-position: 40px 5%;
+    /* background-position: 40px 5%; */
+    background-position: -25% 50%;
   }
 }
+
+#app .rain::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('./assets/rain.png');
+  background-size: cover;
+  opacity: 0.5;
+  animation: rain 0.2s linear infinite;
+}
+
+#app .rain .search-box {
+  position: relative;
+  z-index: 3;
+}
+
+@keyframes rain {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 80% 10%;
+  }
+}
+
 
 </style>
